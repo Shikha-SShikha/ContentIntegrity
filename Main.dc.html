@@ -716,7 +716,8 @@ class Component extends DCLogic {
     const s = this.state;
     const cv = this.contentVals();
     const START = { 'My Tasks': 'tasks', 'Authorship Verification': 'auth', 'Citation Integrity': 'cite', 'Content Integrity': 'content' };
-    const screen = s.screen || START[this.props.startScreen ?? 'My Tasks'] || 'tasks';
+    let qs = null; try { qs = new URLSearchParams(location.search).get('screen'); } catch (e) {}
+    const screen = s.screen || (['tasks', 'auth', 'cite', 'content'].includes(qs) ? qs : null) || START[this.props.startScreen ?? 'My Tasks'] || 'tasks';
     const ORDER = ['auth', 'cite', 'content'];
     const LABEL = { auth: '1. Authorship Verification', cite: '2. Citation Integrity', content: '3. Content Integrity' };
     const idx = ORDER.indexOf(screen);
